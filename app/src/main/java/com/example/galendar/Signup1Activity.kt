@@ -3,11 +3,10 @@ package com.example.galendar
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class Signup1Activity : AppCompatActivity() {
 
@@ -20,10 +19,20 @@ class Signup1Activity : AppCompatActivity() {
             onBackPressed() // 뒤로 가기 동작 호출
         }
 
-        val next1: Button = findViewById(R.id.Next1)
-        next1.setOnClickListener {
-            val intent = Intent(this, Signup2Activity::class.java)
-            startActivity(intent)
+        val username: EditText = findViewById(R.id.username)
+        val nextBtn: Button = findViewById(R.id.Next1)
+
+        nextBtn.setOnClickListener {
+            val name = username.text.toString().trim()
+
+            if (name.isNotEmpty()) {
+                val intent = Intent(this, Signup2Activity::class.java).apply {
+                    putExtra("username", name)
+                }
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "이름을 입력하세요", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

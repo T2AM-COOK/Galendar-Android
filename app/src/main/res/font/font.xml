@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <font
+        android:font="@font/roboto"
+        android:fontWeight="900"/>
+    <font
+        android:font="@font/tenada"
+        android:fontWeight="1200"/>
+
+    <font
+        android:font="@font/paperlogybold"
+        android:fontWeight="1200"/>
+
+    <font
+        android:font="@font/paperlogyextrabold"
+        android:fontWeight="1200"/>
+</font-family>

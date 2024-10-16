@@ -32,11 +32,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="55dp"
-        android:fontFamily="@font/tenada"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/paperlogyextrabold"
         android:text="갈랜더 회원가입"
         android:textColor="@color/MainColor"
-        android:textSize="25dp"
+        android:textSize="20dp"
         app:layout_constraintStart_toEndOf="@+id/bluelogo"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,10 +44,10 @@
         android:id="@+id/ep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/tenada"
+        android:fontFamily="@font/paperlogyextrabold"
         android:text="이메일을\n입력해주세요"
         android:textColor="@color/black"
-        android:textSize="30dp"
+        android:textSize="24dp"
         app:layout_constraintStart_toStartOf="@id/bluelogo"
         app:layout_constraintTop_toBottomOf="@id/bluelogo" />
 
