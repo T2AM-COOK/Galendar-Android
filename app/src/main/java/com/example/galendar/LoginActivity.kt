@@ -10,9 +10,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import android.widget.ProgressBar
+import android.view.View
+
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -20,6 +21,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordEdit: EditText
     private lateinit var loginButton: Button
     private lateinit var authManager: AuthManager
+    private lateinit var progressBar: ProgressBar // 프로그레스 바 변수 추가
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
         emailEdit = findViewById(R.id.email)
         passwordEdit = findViewById(R.id.password)
         loginButton = findViewById(R.id.LoginButton)
+        progressBar = findViewById(R.id.progressBar) // 프로그레스 바 초기화
 
         // AuthManager 초기화
         authManager = AuthManager(this)
@@ -39,17 +42,29 @@ class LoginActivity : AppCompatActivity() {
 
         // 로그인 버튼 클릭 리스너 설정
         loginButton.setOnClickListener {
-            val email = emailEdit.text.toString()
-            val password = passwordEdit.text.toString()
+            val email = emailEdit.text.toString().trim()
+            val password = passwordEdit.text.toString().trim()
+
+            // 이메일과 비밀번호 입력 확인
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "이메일과 비밀번호를 입력하세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // 프로그레스 바 시작
+            progressBar.visibility = View.VISIBLE
 
             // AuthManager의 로그인 메서드 호출
             authManager.login(email, password) { success ->
+                // 로그인 완료 후 프로그레스 바 숨김
+                progressBar.visibility = View.GONE
+
                 if (success) {
                     // 로그인 성공 시 홈 화면으로 이동
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                     finish() // 현재 액티비티 종료
-                    Toast.makeText(this,"로그인 성공", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
                 }
@@ -72,12 +87,23 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun checkAutoLogin() {
+        // 프로그레스 바 시작
+        progressBar.visibility = View.VISIBLE
         val accessToken = authManager.getAccessToken() // AuthManager를 통해 액세스 토큰 가져오기
         if (!accessToken.isNullOrEmpty()) {
             // 액세스 토큰이 유효하면 홈 화면으로 이동
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
+            // 화면이 넘어간 후에는 progressBar가 자동으로 숨겨지도록 지연 설정
+            progressBar.postDelayed({
+                progressBar.visibility = View.GONE
+            }, 1000) // 1초 후에 progressBar가 숨겨짐
             finish() // 현재 액티비티 종료
         }
+
+        // 프로그레스 바 숨김 (자동 로그인 후)
+        progressBar.visibility = View.GONE
     }
 }
+
+

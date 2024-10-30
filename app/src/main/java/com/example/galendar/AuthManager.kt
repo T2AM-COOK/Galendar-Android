@@ -19,6 +19,8 @@ class AuthManager(private val context: Context) {
 
     // 로그인 함수
     fun login(email: String, password: String, callback: (Boolean) -> Unit) {
+
+
         val loginRequest = LoginRequest(email, password)
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -80,31 +82,25 @@ class AuthManager(private val context: Context) {
                                 sharedPreferences.edit().putString("refreshToken", newRefreshToken).apply()
 
                                 Log.d("AuthManager", "토큰 갱신 성공: 새 토큰 저장")
-                                showToast("토큰 갱신 성공")
                             } ?: run {
                                 Log.e("AuthManager", "갱신된 데이터가 null입니다.")
-                                showToast("토큰 갱신 실패: 데이터가 유효하지 않습니다.")
                             }
                         } else {
                             Log.e("AuthManager", "토큰 갱신 실패: ${response.message}")
-                            showToast("토큰 갱신 실패: ${response.message}")
                         }
                     }
                 } catch (e: HttpException) {
                     withContext(Dispatchers.Main) {
                         Log.e("AuthManager", "토큰 갱신 에러: ${e.message()}")
-                        showToast("토큰 갱신 에러")
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
                         Log.e("AuthManager", "알 수 없는 에러: ${e.message}")
-                        showToast("알 수 없는 에러 발생")
                     }
                 }
             }
         } else {
             Log.e("AuthManager", "저장된 refreshToken이 없습니다.")
-            showToast("저장된 refreshToken이 없습니다.")
         }
     }
 

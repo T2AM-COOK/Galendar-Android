@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.CoroutineScope
 import retrofit2.Call
+import android.view.View
 
 class Signup3Activity : AppCompatActivity() {
 
@@ -53,6 +55,7 @@ class Signup3Activity : AppCompatActivity() {
 
     private fun signup(name: String, email: String, password: String) {
         val signupRequest = SignupRequest(name, email, password)
+        val progressBar : ProgressBar = findViewById(R.id.progressBar)
 
         RetrofitClient.signupService.signup(signupRequest)
             .enqueue(object : retrofit2.Callback<SignUpResponse> {
@@ -61,6 +64,7 @@ class Signup3Activity : AppCompatActivity() {
                     response: retrofit2.Response<SignUpResponse>
                 ) {
                     if (response.isSuccessful) { // 2xx 상태 코드일 경우
+                        progressBar.visibility = View.VISIBLE
                         val responseBody = response.body()
                         if (responseBody != null && responseBody.status == 200) {
                             Toast.makeText(
@@ -69,6 +73,10 @@ class Signup3Activity : AppCompatActivity() {
                                 Toast.LENGTH_LONG
                             ).show()
                             startActivity(Intent(this@Signup3Activity, LoginActivity::class.java))
+                            // 화면이 넘어간 후에는 progressBar가 자동으로 숨겨지도록 지연 설정
+                            progressBar.postDelayed({
+                                progressBar.visibility = View.GONE
+                            }, 1000) // 1초 후에 progressBar가 숨겨짐
                         } else {
                             Toast.makeText(
                                 this@Signup3Activity,

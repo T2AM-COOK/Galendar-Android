@@ -16,6 +16,7 @@ class IntroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 
+
         // Coroutine을 사용하여 0.8초 후 화면 전환
         CoroutineScope(Dispatchers.Main).launch {
             delay(800) // 0.8초 대기

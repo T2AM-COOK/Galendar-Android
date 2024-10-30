@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import android.view.View
 
 class Signup2Activity : AppCompatActivity() {
 
@@ -35,6 +37,7 @@ class Signup2Activity : AppCompatActivity() {
         val sendNumberText: EditText = findViewById(R.id.sendNumber) // 인증번호
         val sendEmailBtn: ImageView = findViewById(R.id.sendBtn) // 이메일 전송 버튼
         val nextBtn: Button = findViewById(R.id.Next2) // 다음 버튼
+        val progressBar : ProgressBar = findViewById(R.id.progressBar)
 
         sendEmailBtn.setOnClickListener {
             val email = emailText.text.toString().trim()
@@ -42,11 +45,13 @@ class Signup2Activity : AppCompatActivity() {
                 //나중에 만들어넣기
             } else {
                 Toast.makeText(this, "이메일을 입력하세요", Toast.LENGTH_SHORT).show()
+                progressBar.visibility = View.GONE
             }
         }
 
         nextBtn.setOnClickListener {
             val sendNumber = sendNumberText.text.toString().trim()
+            progressBar.visibility = View.VISIBLE
             if (sendNumber.isNotEmpty()) {
                 // 인증번호가 맞으면 다음 페이지로 이동
                 val intent = Intent(this, Signup3Activity::class.java).apply {
@@ -55,6 +60,10 @@ class Signup2Activity : AppCompatActivity() {
                     putExtra("sendNumber", sendNumber)
                 }
                 startActivity(intent)
+                // 화면이 넘어간 후에는 progressBar가 자동으로 숨겨지도록 지연 설정
+                progressBar.postDelayed({
+                    progressBar.visibility = View.GONE
+                }, 1000) // 1초 후에 progressBar가 숨겨짐
             } else {
                 Toast.makeText(this, "인증번호를 입력하세요", Toast.LENGTH_SHORT).show()
             }
