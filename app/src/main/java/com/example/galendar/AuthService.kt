@@ -69,3 +69,32 @@ data class RefreshData(
     val token: String, // 새 액세스 토큰
     val refreshToken: String // 새 갱신 토큰
 )
+
+interface EmailService {
+    @POST("/email/verify")
+    fun verifyEmailCode(@Body verifyRequest: VerifyRequest): Call<VerifyResponse>
+
+    @POST("/email/send")
+    fun sendEmail(@Body sendEmailRequest: SendEmailRequest): Call<SendEmailResponse>
+}
+
+data class VerifyRequest(
+    val email: String,
+    val code: String // 인증번호를 String 타입으로 수정
+)
+
+data class VerifyResponse(
+    val status: Int,
+    val message: String,
+    val data: Any?
+)
+
+data class SendEmailRequest(
+    val email: String
+)
+
+data class SendEmailResponse(
+    val status: Int,
+    val message: String,
+    val data: Any?
+)

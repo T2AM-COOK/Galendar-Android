@@ -13,8 +13,14 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.view.View
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class Signup2Activity : AppCompatActivity() {
+
+    private lateinit var emailService: EmailService
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +28,11 @@ class Signup2Activity : AppCompatActivity() {
 
         // Retrofit 초기화
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://3.37.189.59:8080")
+            .baseUrl("http://3.37.189.59") // 서버 URL
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
+        emailService = retrofit.create(EmailService::class.java)
 
         val backButton: ImageView = findViewById(R.id.back)
         backButton.setOnClickListener {
@@ -37,37 +45,81 @@ class Signup2Activity : AppCompatActivity() {
         val sendNumberText: EditText = findViewById(R.id.sendNumber) // 인증번호
         val sendEmailBtn: ImageView = findViewById(R.id.sendBtn) // 이메일 전송 버튼
         val nextBtn: Button = findViewById(R.id.Next2) // 다음 버튼
-        val progressBar : ProgressBar = findViewById(R.id.progressBar)
+        progressBar = findViewById(R.id.progressBar)
 
         sendEmailBtn.setOnClickListener {
             val email = emailText.text.toString().trim()
+
             if (email.isNotEmpty()) {
-                //나중에 만들어넣기
+                sendEmail(email)
             } else {
                 Toast.makeText(this, "이메일을 입력하세요", Toast.LENGTH_SHORT).show()
-                progressBar.visibility = View.GONE
             }
         }
 
         nextBtn.setOnClickListener {
             val sendNumber = sendNumberText.text.toString().trim()
-            progressBar.visibility = View.VISIBLE
             if (sendNumber.isNotEmpty()) {
-                // 인증번호가 맞으면 다음 페이지로 이동
-                val intent = Intent(this, Signup3Activity::class.java).apply {
-                    putExtra("username", username)
-                    putExtra("email", emailText.text.toString().trim())
-                    putExtra("sendNumber", sendNumber)
-                }
-                startActivity(intent)
-                // 화면이 넘어간 후에는 progressBar가 자동으로 숨겨지도록 지연 설정
-                progressBar.postDelayed({
-                    progressBar.visibility = View.GONE
-                }, 1000) // 1초 후에 progressBar가 숨겨짐
+                verifyEmailCode(emailText.text.toString().trim(), sendNumber)
             } else {
                 Toast.makeText(this, "인증번호를 입력하세요", Toast.LENGTH_SHORT).show()
             }
         }
     }
-}
 
+    // 이메일로 인증번호 보내기
+    private fun sendEmail(email: String) {
+        progressBar.visibility = View.VISIBLE
+
+        val sendEmailRequest = SendEmailRequest(email)
+        emailService.sendEmail(sendEmailRequest).enqueue(object : Callback<SendEmailResponse> {
+            override fun onResponse(call: Call<SendEmailResponse>, response: Response<SendEmailResponse>) {
+                progressBar.visibility = View.GONE
+
+                if (response.isSuccessful) {
+                    Toast.makeText(this@Signup2Activity, "인증번호가 전송되었습니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this@Signup2Activity, "이메일 전송 실패", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<SendEmailResponse>, t: Throwable) {
+                progressBar.visibility = View.GONE
+                Toast.makeText(this@Signup2Activity, "네트워크 오류", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    // 인증번호 확인
+    private fun verifyEmailCode(email: String, code: String) {
+        progressBar.visibility = View.VISIBLE
+
+        val verifyRequest = VerifyRequest(email, code)
+        emailService.verifyEmailCode(verifyRequest).enqueue(object : Callback<VerifyResponse> {
+            override fun onResponse(call: Call<VerifyResponse>, response: Response<VerifyResponse>) {
+                progressBar.visibility = View.GONE
+
+                if (response.isSuccessful) {
+                    val verifyResponse = response.body()
+
+                    if (verifyResponse != null && verifyResponse.status == 200) {
+                        // 인증 성공 -> 다음 화면으로 이동
+                        val intent = Intent(this@Signup2Activity, Signup3Activity::class.java)
+                        intent.putExtra("username", intent.getStringExtra("username"))
+                        intent.putExtra("email", email)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this@Signup2Activity, "인증번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this@Signup2Activity, "인증 실패", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<VerifyResponse>, t: Throwable) {
+                progressBar.visibility = View.GONE
+                Toast.makeText(this@Signup2Activity, "네트워크 오류", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+}

@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "http://3.37.189.59:8080"
+    private const val BASE_URL = "http://3.37.189.59"
 
     // Retrofit 인스턴스를 lazy 방식으로 초기화
     private val retrofit: Retrofit by lazy {
