@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 탭이 선택된 경우 아이콘에 Maincolor 적용 -->
+    <item android:color="@color/MainColor" android:state_selected="true"/>
+    <!-- 기본 아이콘 색상 (선택되지 않았을 때) -->
+    <item android:color="@color/tab"/>
+</selector>

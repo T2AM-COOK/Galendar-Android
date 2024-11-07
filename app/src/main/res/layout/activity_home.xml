@@ -62,11 +62,13 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginBottom="0dp"
-            android:background="@color/grayy"
+            android:background="@color/white"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/black"
             app:tabIndicatorHeight="0dp"
-            app:tabMode="fixed">
+            app:tabMode="fixed"
+            app:tabRippleColor="@color/tabshadow"
+            app:tabIconTint="@color/selector_tab_icon_color" >
 
             <!-- 탭 3개 생성 -->
             <com.google.android.material.tabs.TabItem

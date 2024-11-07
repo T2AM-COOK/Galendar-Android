@@ -7,4 +7,6 @@
     <color name="grayy">#EDEDED</color>
     <color name="grayyy">#A9A9A9</color>
     <color name="red">#E24343</color>
+    <color name="tab">#656565</color>
+    <color name="tabshadow">#B6C9DB</color>
 </resources>
