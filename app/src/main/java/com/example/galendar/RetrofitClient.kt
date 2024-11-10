@@ -14,9 +14,12 @@ object RetrofitClient {
             .build()
     }
 
-    // 서비스 객체들을 lazy 방식으로 초기화
+    // 서비스 객체들을 lazy 방식으로 초기
     val loginService: LoginService by lazy {
         retrofit.create(LoginService::class.java)
+    }
+    val EmailService: EmailService by lazy {
+        retrofit.create(EmailService::class.java)
     }
 
     val signupService: SignupService by lazy {

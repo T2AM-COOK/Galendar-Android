@@ -36,6 +36,8 @@ class AuthManager(private val context: Context) {
                             sharedPreferences.edit().putString("accessToken", accessToken).apply()
                             sharedPreferences.edit().putString("refreshToken", refreshToken).apply()
 
+
+
                             Log.d("AuthManager", "로그인 성공: 토큰 저장 완료")
                             callback(true) // 로그인 성공
                         } ?: run {

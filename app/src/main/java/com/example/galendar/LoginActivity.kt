@@ -8,12 +8,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.ProgressBar
 import android.view.View
-
-
 
 class LoginActivity : AppCompatActivity() {
 
@@ -60,10 +60,10 @@ class LoginActivity : AppCompatActivity() {
                 progressBar.visibility = View.GONE
 
                 if (success) {
-                    // 로그인 성공 시 홈 화면으로 이동
-                    val intent = Intent(this, HomeActivity::class.java)
-                    startActivity(intent)
-                    finish() // 현재 액티비티 종료
+                    // 로그인 성공 시 MainActivity로 이동
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent) // MainActivity로 이동
+                    finish() // LoginActivity 종료
                     Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
@@ -91,19 +91,19 @@ class LoginActivity : AppCompatActivity() {
         progressBar.visibility = View.VISIBLE
         val accessToken = authManager.getAccessToken() // AuthManager를 통해 액세스 토큰 가져오기
         if (!accessToken.isNullOrEmpty()) {
-            // 액세스 토큰이 유효하면 홈 화면으로 이동
-            val intent = Intent(this, HomeActivity::class.java)
+            // 액세스 토큰이 유효하면 MainActivity로 이동
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish() // LoginActivity 종료
+
             // 화면이 넘어간 후에는 progressBar가 자동으로 숨겨지도록 지연 설정
             progressBar.postDelayed({
                 progressBar.visibility = View.GONE
             }, 1000) // 1초 후에 progressBar가 숨겨짐
-            finish() // 현재 액티비티 종료
         }
 
         // 프로그레스 바 숨김 (자동 로그인 후)
         progressBar.visibility = View.GONE
     }
 }
-
 

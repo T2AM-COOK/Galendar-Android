@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".HomeActivity">
+    tools:context=".HomeFragment">
 
     <!-- 검색창 -->
     <LinearLayout
@@ -57,9 +57,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto"
-        android:text="오늘, 11월 5일"
         android:textColor="@color/black"
-        android:textSize="18dp"
+        android:textSize="22dp"
         app:layout_constraintStart_toStartOf="@id/materialCalendarView"
         android:layout_marginStart="20dp"
         app:layout_constraintTop_toBottomOf="@id/materialCalendarView"
@@ -78,10 +77,10 @@
         app:cardElevation="1dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:src="@drawable/bluecardview"
-            android:layout_marginStart="-28dp"/>
+            android:layout_marginEnd="-337dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -90,7 +89,7 @@
             android:fontFamily="@font/roboto"
             android:text="해커그라운드 해커톤 2024"
             android:textColor="@color/black"
-            android:layout_marginStart="13dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="3dp"/>
 
         <TextView
@@ -101,7 +100,7 @@
             android:textSize="15dp"
             android:text="접수기간 2024 6월 19일(수) ~11월 5일(일)"
             android:layout_marginTop="27dp"
-            android:layout_marginStart="13dp"/>
+            android:layout_marginStart="5dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -111,11 +110,8 @@
             android:textSize="16dp"
             android:text="접수 마감일"
             android:layout_marginTop="48dp"
-            android:layout_marginStart="13dp"/>
+            android:layout_marginStart="5dp"/>
 
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-

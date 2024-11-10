@@ -26,14 +26,6 @@ class Signup2Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup2)
 
-        // Retrofit 초기화
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://3.37.189.59") // 서버 URL
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        emailService = retrofit.create(EmailService::class.java)
-
         val backButton: ImageView = findViewById(R.id.back)
         backButton.setOnClickListener {
             onBackPressed()
@@ -75,8 +67,9 @@ class Signup2Activity : AppCompatActivity() {
         emailService.sendEmail(sendEmailRequest).enqueue(object : Callback<SendEmailResponse> {
             override fun onResponse(call: Call<SendEmailResponse>, response: Response<SendEmailResponse>) {
                 progressBar.visibility = View.GONE
+                val sendEmailResponse = response.body()
 
-                if (response.isSuccessful) {
+                if (sendEmailResponse != null && sendEmailResponse.status == 200) {
                     Toast.makeText(this@Signup2Activity, "인증번호가 전송되었습니다.", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this@Signup2Activity, "이메일 전송 실패", Toast.LENGTH_SHORT).show()
@@ -90,11 +83,13 @@ class Signup2Activity : AppCompatActivity() {
         })
     }
 
+
     // 인증번호 확인
     private fun verifyEmailCode(email: String, code: String) {
         progressBar.visibility = View.VISIBLE
 
         val verifyRequest = VerifyRequest(email, code)
+        val emailService = RetrofitClient.EmailService
         emailService.verifyEmailCode(verifyRequest).enqueue(object : Callback<VerifyResponse> {
             override fun onResponse(call: Call<VerifyResponse>, response: Response<VerifyResponse>) {
                 progressBar.visibility = View.GONE
