@@ -28,6 +28,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val materialCalendarView = view.findViewById<MaterialCalendarView>(R.id.materialCalendarView)
         val dateTextView : TextView = view.findViewById(R.id.date)
 
+        materialCalendarView.setTileHeight(130)
+
         // 오늘 날짜 표시
         updateDateText(dateTextView, CalendarDay.today())
 
