@@ -4,4 +4,7 @@
         <item name="colorAccent">@color/MainColor</item> <!-- 방금 추가한 색상 사용 -->
         <item name="android:textColor">@color/white</item> <!-- 텍스트 색상 -->
     </style>
+    <style name="ChipTextStyle" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:fontFamily">@font/pretendardbold</item>
+    </style>
 </resources>
