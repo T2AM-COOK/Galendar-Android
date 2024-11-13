@@ -32,7 +32,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // 오늘 날짜 표시
         updateDateText(dateTextView, CalendarDay.today())
-
         // 날짜 선택 리스너 추가
         val selectedDecorator = SelectedDecorator()  // 선택된 날짜 데코레이터 추가
         materialCalendarView.setOnDateChangedListener { widget, date, selected ->
