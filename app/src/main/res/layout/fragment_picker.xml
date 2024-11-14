@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:id="@+id/picker_root"
+    tools:context=".PickerFragment">
 
     <TextView
         android:id="@+id/regiontext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginStart="10dp"
         android:text="지역"
-        android:textColor="@color/MainColor"
+        android:textColor="@color/black"
         android:fontFamily="@font/pretendardextrabold"
-        android:textSize="30dp"
+        android:textSize="25dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -41,6 +45,7 @@
             android:textColor="@color/black"
             app:chipCornerRadius="19dp"
             app:chipTextAppearance="@style/ChipTextStyle"
+            android:backgroundTint="@color/white"
             app:chipStrokeWidth="2dp"
             app:textStartPadding="2dp"
             app:textEndPadding="2dp"
@@ -56,6 +61,7 @@
             app:chipCornerRadius="19dp"
             app:chipTextAppearance="@style/ChipTextStyle"
             app:chipStrokeWidth="2dp"
+            android:backgroundTint="@color/white"
             app:textStartPadding="2dp"
             app:textEndPadding="2dp"
             app:chipStrokeColor="@color/MainColor" />
@@ -64,6 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="전국"
+            android:backgroundTint="@color/white"
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
@@ -77,6 +84,7 @@
             android:id="@+id/서울"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
             android:text="서울"
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
@@ -92,6 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="인천"
+            android:backgroundTint="@color/white"
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
@@ -106,6 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="대전"
+            android:backgroundTint="@color/white"
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
@@ -120,6 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="광주"
+            android:backgroundTint="@color/white"
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
@@ -134,6 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="대구"
+            android:backgroundTint="@color/white"
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
@@ -151,6 +163,7 @@
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
+            android:backgroundTint="@color/white"
             app:chipCornerRadius="19dp"
             app:chipTextAppearance="@style/ChipTextStyle"
             app:chipStrokeWidth="2dp"
@@ -162,6 +175,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="울산"
+            android:backgroundTint="@color/white"
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
@@ -179,6 +193,7 @@
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
+            android:backgroundTint="@color/white"
             app:chipCornerRadius="19dp"
             app:chipTextAppearance="@style/ChipTextStyle"
             app:chipStrokeWidth="2dp"
@@ -193,6 +208,7 @@
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
+            android:backgroundTint="@color/white"
             app:chipCornerRadius="19dp"
             app:chipTextAppearance="@style/ChipTextStyle"
             app:chipStrokeWidth="2dp"
@@ -208,6 +224,7 @@
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
             app:chipCornerRadius="19dp"
+            android:backgroundTint="@color/white"
             app:chipTextAppearance="@style/ChipTextStyle"
             app:chipStrokeWidth="2dp"
             app:textStartPadding="2dp"
@@ -218,6 +235,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="충남"
+            android:backgroundTint="@color/white"
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
@@ -235,6 +253,7 @@
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
+            android:backgroundTint="@color/white"
             app:chipCornerRadius="19dp"
             app:chipTextAppearance="@style/ChipTextStyle"
             app:chipStrokeWidth="2dp"
@@ -251,6 +270,7 @@
             android:textColor="@color/black"
             app:chipCornerRadius="19dp"
             app:chipTextAppearance="@style/ChipTextStyle"
+            android:backgroundTint="@color/white"
             app:chipStrokeWidth="2dp"
             app:textStartPadding="2dp"
             app:textEndPadding="2dp"
@@ -260,6 +280,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="전북"
+            android:backgroundTint="@color/white"
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
@@ -274,6 +295,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="경남"
+            android:backgroundTint="@color/white"
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
@@ -291,6 +313,7 @@
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
+            android:backgroundTint="@color/white"
             app:chipCornerRadius="19dp"
             app:chipTextAppearance="@style/ChipTextStyle"
             app:chipStrokeWidth="2dp"
@@ -302,6 +325,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="제주"
+            android:backgroundTint="@color/white"
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
@@ -316,6 +340,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="해외"
+            android:backgroundTint="@color/white"
             app:chipBackgroundColorSelected="@color/MainColor"
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
@@ -334,6 +359,7 @@
             app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
             app:chipCornerRadius="19dp"
+            android:backgroundTint="@color/white"
             app:chipTextAppearance="@style/ChipTextStyle"
             app:chipStrokeWidth="2dp"
             app:textStartPadding="2dp"
@@ -345,12 +371,12 @@
         android:id="@+id/targettext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="270dp"
         android:layout_marginStart="10dp"
         android:text="대상자"
-        android:textColor="@color/MainColor"
+        android:textColor="@color/black"
         android:fontFamily="@font/pretendardextrabold"
-        android:textSize="30dp"
+        android:textSize="25dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -359,15 +385,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        app:layout_constraintTop_toBottomOf="@id/targettext"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_min="300dp"
-        app:singleLine="false"
+        app:chipEndPadding="0dp"
         app:chipSpacingHorizontal="4dp"
         app:chipSpacingVertical="-5dp"
         app:chipStartPadding="0dp"
-        app:chipEndPadding="0dp" >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/targettext"
+        app:layout_constraintWidth_min="300dp"
+        app:singleLine="false">
 
         <!-- Row 1 -->
         <com.google.android.material.chip.Chip
@@ -375,75 +401,80 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="누구나"
-            app:chipBackgroundColorSelected="@color/MainColor"
-            app:chipTextColorSelected="@color/white"
+            android:backgroundTint="@color/white"
             android:textColor="@color/black"
+            app:chipBackgroundColorSelected="@color/MainColor"
             app:chipCornerRadius="19dp"
-            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipStrokeColor="@color/MainColor"
             app:chipStrokeWidth="2dp"
-            app:textStartPadding="2dp"
+            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipTextColorSelected="@color/white"
             app:textEndPadding="2dp"
-            app:chipStrokeColor="@color/MainColor" />
+            app:textStartPadding="2dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/유치원"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="유치원"
-            app:chipBackgroundColorSelected="@color/MainColor"
-            app:chipTextColorSelected="@color/white"
+            android:backgroundTint="@color/white"
             android:textColor="@color/black"
+            app:chipBackgroundColorSelected="@color/MainColor"
             app:chipCornerRadius="19dp"
-            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipStrokeColor="@color/MainColor"
             app:chipStrokeWidth="2dp"
-            app:textStartPadding="2dp"
+            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipTextColorSelected="@color/white"
             app:textEndPadding="2dp"
-            app:chipStrokeColor="@color/MainColor" />
+            app:textStartPadding="2dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/초등학생"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="초등학생"
-            app:chipBackgroundColorSelected="@color/MainColor"
-            app:chipTextColorSelected="@color/white"
+            android:backgroundTint="@color/white"
             android:textColor="@color/black"
+            app:chipBackgroundColorSelected="@color/MainColor"
             app:chipCornerRadius="19dp"
-            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipStrokeColor="@color/MainColor"
             app:chipStrokeWidth="2dp"
-            app:textStartPadding="2dp"
+            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipTextColorSelected="@color/white"
             app:textEndPadding="2dp"
-            app:chipStrokeColor="@color/MainColor" />
+            app:textStartPadding="2dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/중학생"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="중학생"
-            app:chipBackgroundColorSelected="@color/MainColor"
-            app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            app:chipBackgroundColorSelected="@color/MainColor"
             app:chipCornerRadius="19dp"
-            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipStrokeColor="@color/MainColor"
             app:chipStrokeWidth="2dp"
-            app:textStartPadding="2dp"
+            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipTextColorSelected="@color/white"
             app:textEndPadding="2dp"
-            app:chipStrokeColor="@color/MainColor" />
+            app:textStartPadding="2dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/고등학생"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="고등학생"
-            app:chipBackgroundColorSelected="@color/MainColor"
-            app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            app:chipBackgroundColorSelected="@color/MainColor"
             app:chipCornerRadius="19dp"
-            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipStrokeColor="@color/MainColor"
             app:chipStrokeWidth="2dp"
-            app:textStartPadding="2dp"
+            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipTextColorSelected="@color/white"
             app:textEndPadding="2dp"
-            app:chipStrokeColor="@color/MainColor" />
+            app:textStartPadding="2dp" />
 
         <!-- Row 2 -->
         <com.google.android.material.chip.Chip
@@ -451,76 +482,213 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="대학생"
-            app:chipBackgroundColorSelected="@color/MainColor"
-            app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
+            app:chipBackgroundColorSelected="@color/MainColor"
             app:chipCornerRadius="19dp"
-            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipStrokeColor="@color/MainColor"
+            android:backgroundTint="@color/white"
             app:chipStrokeWidth="2dp"
-            app:textStartPadding="2dp"
+            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipTextColorSelected="@color/white"
             app:textEndPadding="2dp"
-            app:chipStrokeColor="@color/MainColor" />
+            app:textStartPadding="2dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/대학원생"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="대학원생"
-            app:chipBackgroundColorSelected="@color/MainColor"
-            app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
+            app:chipBackgroundColorSelected="@color/MainColor"
+            android:backgroundTint="@color/white"
             app:chipCornerRadius="19dp"
-            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipStrokeColor="@color/MainColor"
             app:chipStrokeWidth="2dp"
-            app:textStartPadding="2dp"
+            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipTextColorSelected="@color/white"
             app:textEndPadding="2dp"
-            app:chipStrokeColor="@color/MainColor" />
+            app:textStartPadding="2dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/일반인"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="일반인"
-            app:chipBackgroundColorSelected="@color/MainColor"
-            app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            app:chipBackgroundColorSelected="@color/MainColor"
             app:chipCornerRadius="19dp"
-            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipStrokeColor="@color/MainColor"
             app:chipStrokeWidth="2dp"
-            app:textStartPadding="2dp"
+            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipTextColorSelected="@color/white"
             app:textEndPadding="2dp"
-            app:chipStrokeColor="@color/MainColor" />
+            app:textStartPadding="2dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/외국인"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="외국인"
-            app:chipBackgroundColorSelected="@color/MainColor"
-            app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
+            app:chipBackgroundColorSelected="@color/MainColor"
             app:chipCornerRadius="19dp"
-            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipStrokeColor="@color/MainColor"
+            android:backgroundTint="@color/white"
             app:chipStrokeWidth="2dp"
-            app:textStartPadding="2dp"
+            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipTextColorSelected="@color/white"
             app:textEndPadding="2dp"
-            app:chipStrokeColor="@color/MainColor" />
+            app:textStartPadding="2dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/해당자"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="해당자"
-            app:chipBackgroundColorSelected="@color/MainColor"
-            app:chipTextColorSelected="@color/white"
             android:textColor="@color/black"
+            app:chipBackgroundColorSelected="@color/MainColor"
             app:chipCornerRadius="19dp"
-            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipStrokeColor="@color/MainColor"
+            android:backgroundTint="@color/white"
             app:chipStrokeWidth="2dp"
-            app:textStartPadding="2dp"
+            app:chipTextAppearance="@style/ChipTextStyle"
+            app:chipTextColorSelected="@color/white"
             app:textEndPadding="2dp"
-            app:chipStrokeColor="@color/MainColor" />
+            app:textStartPadding="2dp" />
     </com.google.android.material.chip.ChipGroup>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/jstext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="접수 날짜"
+        android:fontFamily="@font/pretendardextrabold"
+        android:textSize="25dp"
+        app:layout_constraintStart_toStartOf="@id/targettext"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="440dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/jstext"
+        android:text="(접수 시작일 ~ 접수 마감일)"
+        app:layout_constraintBottom_toBottomOf="@id/jstext"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="4dp"/>
 
+    <android.widget.Button
+        android:id="@+id/submit_start_data"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@id/targettext"
+        app:layout_constraintTop_toBottomOf="@id/jstext"
+        android:background="@drawable/datapickbtn"
+        android:layout_marginStart="20dp"
+        android:text="접수 시작일"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="~"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="215dp"/>
+    <android.widget.Button
+        android:id="@+id/submit_end_data"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@id/targettext"
+        app:layout_constraintTop_toBottomOf="@id/jstext"
+        android:background="@drawable/datapickbtn"
+        android:layout_marginStart="225dp"
+        android:text="접수 마감일"
+        />
+
+
+    <TextView
+        android:id="@+id/contesttext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="행사 날짜"
+        android:fontFamily="@font/pretendardextrabold"
+        android:textSize="25dp"
+        app:layout_constraintStart_toStartOf="@id/targettext"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="540dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/contesttext"
+        android:text="(행사 시작일~행사 마감일)"
+        app:layout_constraintBottom_toBottomOf="@id/contesttext"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="4dp"/>
+
+    <android.widget.Button
+        android:id="@+id/contest_start_data"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@id/targettext"
+        app:layout_constraintTop_toBottomOf="@id/contesttext"
+        android:background="@drawable/datapickbtn"
+        android:layout_marginStart="20dp"
+        android:text="행사 시작일"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="~"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="115dp"/>
+
+    <android.widget.Button
+        android:id="@+id/contest_end_data"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@id/targettext"
+        app:layout_constraintTop_toBottomOf="@id/contesttext"
+        android:background="@drawable/datapickbtn"
+        android:layout_marginStart="225dp"
+        android:text="행사 마감일"
+        />
+
+    <android.widget.Button
+        android:layout_width="140dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/sheetbtn"
+        android:textColor="@color/grayyy"
+        android:text="선택 초기화"/>
+
+
+    <android.widget.Button
+        android:layout_width="214dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="175dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/sheetbtn2"
+        android:textColor="@color/white"
+        android:text="적용하기"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

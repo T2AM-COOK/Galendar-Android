@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- 버튼 배경 색상 (흰색) -->
+    <solid android:color="@color/MainColor"/>
+
+    <!-- 버튼의 모서리 둥글기 -->
+    <corners android:radius="10dp"/>
+</shape>
