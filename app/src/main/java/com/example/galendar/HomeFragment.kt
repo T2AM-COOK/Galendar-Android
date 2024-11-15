@@ -51,11 +51,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         materialCalendarView.setHeaderTextAppearance(R.style.CustomCalendarHeaderText)
         materialCalendarView.setDateTextAppearance(R.style.CustomTextAppearanceDayClicked)
 
-        // SearchView 클릭 시, SearchActivity로 이동
         val searchView: SearchView = view.findViewById(R.id.searchView)
         searchView.setOnSearchClickListener {
-            val intent = Intent(activity, SearchActivity::class.java)
-            startActivity(intent)
+            // SearchViewFragment 생성
+            val searchViewFragment = SearchViewFragment()
+
+            // FragmentManager를 사용해 현재 Fragment를 대체
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, searchViewFragment) // 올바른 Fragment 객체 전달
+                .addToBackStack(null)
+                .commit()
         }
 
         // WindowInsets 설정
