@@ -56,10 +56,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             // SearchViewFragment 생성
             val searchViewFragment = SearchViewFragment()
 
-            // FragmentManager를 사용해 현재 Fragment를 대체
+            // FragmentManager를 사용하여 현재 Fragment를 교체
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, searchViewFragment) // 올바른 Fragment 객체 전달
-                .addToBackStack(null)
+                .replace(R.id.container, searchViewFragment)  // `fragment_container`는 현재 프래그먼트가 들어갈 컨테이너의 id입니다.
+                .addToBackStack(null)  // 백스택에 추가하여 뒤로 가기 시 이전 프래그먼트로 돌아갈 수 있게 설정
                 .commit()
         }
 

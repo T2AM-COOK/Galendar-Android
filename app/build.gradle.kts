@@ -83,11 +83,13 @@ dependencies {
     implementation ("com.github.prolificinteractive:material-calendarview:2.0.1") //
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
 
-    implementation ("com.google.android.material:material:1.13.0-alpha07")
 
-    implementation ("com.google.android.material:material:1.9.0")
+    implementation ("com.google.android.material:material:1.12.0")
 
     implementation ("androidx.fragment:fragment-ktx:1.6.1")
+
+    implementation ("com.github.bumptech.glide:glide:4.15.1")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
 
 
 }

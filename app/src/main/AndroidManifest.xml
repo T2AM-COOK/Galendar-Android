@@ -19,8 +19,9 @@
         android:theme="@style/Theme.Galendar"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
-
+        <activity
+            android:name=".ContestsActivity"
+            android:exported="false" />
         <activity
             android:name=".SearchActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
@@ -32,10 +33,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-<!--        <activity-->
-<!--            android:name=".HomeActivity"-->
-<!--            android:exported="true" />-->
+        </activity> <!-- <activity -->
+        <!-- android:name=".HomeActivity" -->
+        <!-- android:exported="true" /> -->
         <activity
             android:name=".Signup3Activity"
             android:exported="true" />

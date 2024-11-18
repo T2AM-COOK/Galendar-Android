@@ -9,65 +9,160 @@ import android.widget.Button
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.Calendar
 import java.util.Locale
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.view.WindowManager
-import android.view.Gravity
-
+import android.widget.Toast
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class PickerFragment : BottomSheetDialogFragment(R.layout.fragment_picker) {
-
-    override fun onStart() {
-        super.onStart()
-
-        // BottomSheet의 다이얼로그 인스턴스를 가져옴
-        val dialog = dialog
-        if (dialog != null) {
-            val window = dialog.window
-            // 전체 화면 크기로 설정
-            window?.setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT, // 너비
-                ViewGroup.LayoutParams.MATCH_PARENT  // 높이
-            )
-
-            // 바텀시트를 화면의 아래쪽으로 붙이기
-            window?.setGravity(Gravity.BOTTOM)
-        }
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // view.findViewById를 통해 버튼 참조
+        val applyBtn: Button = view.findViewById(R.id.apllyBtn)
+        val resetBtn: Button = view.findViewById(R.id.resetBtn)
+
+        var submitStartDate: String = "" // 기본값: 공백
+        var submitEndDate: String = "" // 기본값: 공백
+
         val submitStartData: Button = view.findViewById(R.id.submit_start_data)
         val submitEndData: Button = view.findViewById(R.id.submit_end_data)
-        val contestStartData: Button = view.findViewById(R.id.contest_start_data)
-        val contestEndData: Button = view.findViewById(R.id.contest_end_data)
 
-        fun showDataPicker(button : Button) {
+        // 날짜 선택 처리 함수
+        fun showDatePickerForButton(button: Button) {
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
             val day = calendar.get(Calendar.DAY_OF_MONTH)
 
             DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-                // 선택된 날짜를 "YYYY년 MM월 DD일" 형식으로 버튼 텍스트에 설정
-                val formattedDate = String.format(Locale.getDefault(), "%d년 %02d월 %02d일", selectedYear, selectedMonth + 1, selectedDay)
+                val formattedDate = String.format(
+                    Locale.getDefault(),
+                    "%04d-%02d-%02d",
+                    selectedYear,
+                    selectedMonth + 1,
+                    selectedDay
+                )
                 button.text = formattedDate
+
+                // 선택한 값 저장
+                when (button.id) {
+                    R.id.submit_start_data -> submitStartDate = formattedDate
+                    R.id.submit_end_data -> submitEndDate = formattedDate
+                }
             }, year, month, day).show()
         }
 
-        submitStartData.setOnClickListener { showDataPicker(submitStartData) }
-        submitEndData.setOnClickListener { showDataPicker(submitEndData) }
-        contestStartData.setOnClickListener { showDataPicker(contestStartData) }
-        contestEndData.setOnClickListener { showDataPicker(contestEndData) }
+        // 버튼 클릭 시 DatePicker 표시
+        submitStartData.setOnClickListener {
+            showDatePickerForButton(submitStartData)
+        }
 
-        // WindowInsets 설정
-        ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.picker_root)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        submitEndData.setOnClickListener {
+            showDatePickerForButton(submitEndData)
+        }
+
+        val regionChipGroup: ChipGroup = view.findViewById(R.id.regionchipGroup)
+        val targetChipGroup: ChipGroup = view.findViewById(R.id.targetchipGroup)
+        var selectedRegionIds: List<Int> = emptyList()
+        var selectedTargetIds: List<Int> = emptyList()
+
+        // 지역 ChipGroup 선택 처리
+        regionChipGroup.setOnCheckedChangeListener { group, checkedId ->
+            selectedRegionIds = mutableListOf()
+
+            for (i in 0 until group.childCount) {
+                val chip = group.getChildAt(i) as Chip
+                if (chip.isChecked) {
+                    selectedRegionIds = selectedRegionIds + (chip.tag as Int)
+                }
+            }
+        }
+
+        // 타겟 ChipGroup 선택 처리
+        targetChipGroup.setOnCheckedChangeListener { group, checkedId ->
+            selectedTargetIds = mutableListOf()
+
+            for (i in 0 until group.childCount) {
+                val chip = group.getChildAt(i) as Chip
+                if (chip.isChecked) {
+                    selectedTargetIds = selectedTargetIds + (chip.tag as Int)
+                }
+            }
+        }
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://3.37.189.59/") // 서버 주소
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val contestService = retrofit.create(ContestService::class.java)
+
+        applyBtn.setOnClickListener {
+            val isRegionSelected = regionChipGroup.checkedChipIds.isNotEmpty()
+            val isTargetSelected = targetChipGroup.checkedChipIds.isNotEmpty()
+            val isStartDateSelected = submitStartDate.isNotBlank()
+            val isEndDateSelected = submitEndDate.isNotBlank()
+
+            // 하나라도 선택되었는지 확인
+            if (!(isRegionSelected || isTargetSelected || isStartDateSelected || isEndDateSelected)) {
+                Toast.makeText(requireContext(), "적용될게 없습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val startDateToSend = if (submitStartDate.isNotBlank()) submitStartDate else ""
+                val endDateToSend = if (submitEndDate.isNotBlank()) submitEndDate else ""
+
+                try {
+                    val contestResponse = contestService.getContestList(
+                        page = 1,
+                        size = 10,
+                        keyword = "",
+                        targets = selectedTargetIds,
+                        regions = selectedRegionIds,
+                        submitStartDate = startDateToSend,
+                        submitEndDate = endDateToSend
+                    )
+
+                    withContext(Dispatchers.Main) {
+                        println(contestResponse) // 서버 응답 확인
+                        Toast.makeText(requireContext(), "적용되었습니다.", Toast.LENGTH_SHORT).show()
+                        dismiss()
+                    }
+                } catch (e: Exception) {
+                    // 에러 메시지 출력
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(requireContext(), "에러가 발생했습니다: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                    e.printStackTrace() // 로그에 에러 출력
+                }
+            }
+        }
+        resetBtn.setOnClickListener {
+            // 칩 선택 초기화
+            for (i in 0 until regionChipGroup.childCount) {
+                val chip = regionChipGroup.getChildAt(i) as Chip
+                chip.isChecked = false
+            }
+
+            for (i in 0 until targetChipGroup.childCount) {
+                val chip = targetChipGroup.getChildAt(i) as Chip
+                chip.isChecked = false
+            }
+
+            // 날짜 선택 초기화
+            submitStartData.text = "시작 날짜"
+            submitEndData.text = "종료 날짜"
+            submitStartDate = ""
+            submitEndDate = ""
         }
     }
 }
+
+

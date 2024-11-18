@@ -2,7 +2,9 @@ package com.example.galendar
 
 import retrofit2.http.Body
 import retrofit2.Call
+import retrofit2.http.Query
 import retrofit2.http.POST
+import retrofit2.http.GET
 
 // 회원가입 인터페이스
 interface SignupService {
@@ -97,4 +99,67 @@ data class SendEmailResponse(
     val status: Int,
     val message: String,
     val data: Any?
+)
+
+
+interface ContestService {
+    @GET("/contest/list")
+    suspend fun getContestList(
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("keyword") keyword: String = "",
+        @Query("targets") targets: List<Int> = emptyList(),
+        @Query("regions") regions: List<Int> = emptyList(),
+        @Query("submitStartDate") submitStartDate: String = "",
+        @Query("submitEndDate") submitEndDate: String = ""
+    ): ContestResponse
+}
+
+data class ContestResponse(
+    val status: Int,
+    val message: String,
+    val data: List<ContestData>
+)
+
+data class ContestData(
+    val id: Int,
+    val title: String,
+    val content: String,
+    val cost: String,
+    val link: String,
+    val imgLink: String,
+    val submitStartDate: String,
+    val submitEndDate: String,
+    val contestStartDate: String?, // nullable로 유지
+    val contestEndDate: String? // nullable로 유지
+)
+
+interface region{
+    @GET("/region")
+    suspend fun Region(): RegionResponse
+}
+
+data class RegionResponse(
+    val status: Int,
+    val message: String,
+    val data: List<RegionData>
+)
+
+data class RegionData(
+    val id: Int,
+    val name: String
+)
+
+interface target{
+    @GET("/target")
+    suspend fun Target() : TargetResponse
+}
+data class TargetResponse(
+    val status: Int,
+    val message: String,
+    val data: List<TargetData>
+)
+data class TargetData(
+    val id: Int,
+    val name: String
 )

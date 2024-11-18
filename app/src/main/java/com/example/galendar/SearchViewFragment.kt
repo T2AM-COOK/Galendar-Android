@@ -1,29 +1,31 @@
 package com.example.galendar
 
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-class SearchViewFragment : Fragment() {
+class SearchViewFragment : Fragment(R.layout.fragment_search_view) {
 
-    private var pickerFragment: PickerFragment? = null  // pickerFragment를 멤버 변수로 선언
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // fragment_search_view 레이아웃을 inflate
-        return inflater.inflate(R.layout.fragment_search_view, container, false)
-    }
+    private var pickerFragment: PickerFragment? = null
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var contestAdapter: ContestAdapter
+    private var contestList: List<ContestData> = emptyList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,46 +38,39 @@ class SearchViewFragment : Fragment() {
         }
 
         val bluelogo: ImageView = view.findViewById(R.id.bluelogo)
-
-        // ImageView 클릭 리스너 설정
         bluelogo.setOnClickListener {
-            // 클릭 시 HomeFragment로 돌아가는 처리
             parentFragmentManager.popBackStack()
         }
 
-        // SearchView 초기화
         val searchView: SearchView = view.findViewById(R.id.searchView)
 
-        // SearchView가 활성화될 때 바로 검색창을 열고 키보드도 띄우기
-        searchView.requestFocus()
-        searchView.isIconified = false
+        // RecyclerView 설정
+        recyclerView = view.findViewById(R.id.recyclerViewContests)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // SearchView에서 입력된 검색어를 받아오기
-        val query = activity?.intent?.getStringExtra("searchQuery") ?: ""
-        searchView.setQuery(query, false)
+        // 초기 데이터 설정
+        contestAdapter = ContestAdapter(contestList)
+        recyclerView.adapter = contestAdapter
 
-        // 키보드를 자동으로 열기
-        searchView.postDelayed({
-            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-        }, 200)  // 200ms 지연 후 실행
+        // 전체 데이터 로드
+        loadContests()
 
-        // SearchView에서 입력된 검색어를 처리
+        // SearchView 이벤트 처리
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // 검색어 제출 시 처리
-                return false
+                if (!query.isNullOrEmpty()) {
+                    fetchContests(query)
+                }
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // 검색어 변경 시 처리
                 return false
             }
         })
 
         val filter: ImageView = view.findViewById(R.id.filter)
         filter.setOnClickListener {
-            // pickerFragment가 null일 경우만 초기화
             if (pickerFragment == null) {
                 pickerFragment = PickerFragment()
             }
@@ -84,13 +79,70 @@ class SearchViewFragment : Fragment() {
             }
         }
 
-
         val nestedScrollView: NestedScrollView = view.findViewById(R.id.nested_scroll_view)
-
         nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-            // 스크롤이 내려가면 PickerFragment(즉, BottomSheet)를 닫음
             if (scrollY > 0 && pickerFragment?.isVisible == true) {
                 pickerFragment?.dismiss()
+            }
+        }
+    }
+
+    private fun fetchContests(keyword: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val retrofit = Retrofit.Builder()
+                    .baseUrl("http://3.37.189.59/") // 서버 주소
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                val contestService = retrofit.create(ContestService::class.java)
+
+                val response = contestService.getContestList(
+                    page = 1,
+                    size = 10,
+                    keyword = keyword
+                )
+
+                withContext(Dispatchers.Main) {
+                    if (response.status == 200 && response.data.isNotEmpty()) {
+                        contestAdapter.updateData(response.data)
+                    } else {
+                        Toast.makeText(requireContext(), "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "데이터를 가져오지 못했습니다: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun loadContests() {
+        lifecycleScope.launch {
+            try {
+                val retrofit = Retrofit.Builder()
+                    .baseUrl("http://3.37.189.59/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                val contestService = retrofit.create(ContestService::class.java)
+
+                val response = contestService.getContestList(
+                    page = 1,
+                    size = 20,
+                    keyword = "",
+                    targets = emptyList(),
+                    regions = emptyList(),
+                    submitStartDate = "",
+                    submitEndDate = ""
+                )
+
+                if (response.status == 200) {
+                    contestAdapter.updateData(response.data)
+                } else {
+                    Log.e("loadContests", "Error: ${response.message}")
+                }
+            } catch (e: Exception) {
+                Log.e("loadContests", "Exception: ${e.message}")
             }
         }
     }
