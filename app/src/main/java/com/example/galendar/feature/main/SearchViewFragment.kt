@@ -2,7 +2,9 @@ package com.example.galendar.feature.main
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -15,44 +17,45 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.galendar.R
 import com.example.galendar.feature.contests.ContestAdapter
-import com.example.galendar.remote.ContestData
 import com.example.galendar.remote.RetrofitBuilder
-import kotlinx.coroutines.Dispatchers
+import com.example.galendar.databinding.FragmentSearchViewBinding
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SearchViewFragment : Fragment(R.layout.fragment_search_view) {
 
     private var pickerFragment: PickerFragment? = null
     private lateinit var recyclerView: RecyclerView
     private lateinit var contestAdapter: ContestAdapter
+    private lateinit var binding : FragmentSearchViewBinding
     private var currentPage = 1
     private var isLoading = false
     private var hasMoreData = true
     private val pageSize = 20
     private var currentKeyword: String = ""
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        loadContests(isLoadMore = false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Fragment의 뷰를 설정
+        binding = FragmentSearchViewBinding.inflate(inflater, container, false)
 
         // WindowInsetsListener 설정
-        ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.search_root)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val bluelogo: ImageView = view.findViewById(R.id.bluelogo)
+        val bluelogo: ImageView = binding.bluelogo
         bluelogo.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
-        val searchView: SearchView = view.findViewById(R.id.searchView)
+        val searchView: SearchView = binding.searchView
 
         // RecyclerView 설정
-        recyclerView = view.findViewById(R.id.recyclerViewContests)
+        recyclerView = binding.recyclerViewContests
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         contestAdapter = ContestAdapter()
         recyclerView.adapter = contestAdapter
@@ -73,12 +76,12 @@ class SearchViewFragment : Fragment(R.layout.fragment_search_view) {
             }
         })
 
-
         // SearchView 이벤트 처리
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
                     currentKeyword = query
+                    contestAdapter.clearData() // 이전 데이터 제거
                     fetchContests(currentKeyword) // 검색 결과를 가져옴
                 }
                 return true
@@ -89,8 +92,7 @@ class SearchViewFragment : Fragment(R.layout.fragment_search_view) {
             }
         })
 
-
-        val filter: ImageView = view.findViewById(R.id.filter)
+        val filter: ImageView = binding.filter
         filter.setOnClickListener {
             if (pickerFragment == null) {
                 pickerFragment = PickerFragment()
@@ -100,13 +102,21 @@ class SearchViewFragment : Fragment(R.layout.fragment_search_view) {
             }
         }
 
-        val nestedScrollView: NestedScrollView = view.findViewById(R.id.nested_scroll_view)
+        val nestedScrollView: NestedScrollView = binding.nestedScrollView
         nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
             if (scrollY > 0 && pickerFragment?.isVisible == true) {
                 pickerFragment?.dismiss()
             }
         }
+
+        return binding.root
     }
+
+    override fun onResume() {
+        super.onResume()
+        loadContests(isLoadMore = false) // 데이터를 새로 로드
+    }
+
 
     private fun loadContests(isLoadMore: Boolean = false) {
         if (!isLoadMore) {
@@ -191,5 +201,3 @@ class SearchViewFragment : Fragment(R.layout.fragment_search_view) {
         }
     }
 }
-
-

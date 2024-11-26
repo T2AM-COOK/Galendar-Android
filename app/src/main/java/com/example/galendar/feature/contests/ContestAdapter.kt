@@ -9,17 +9,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.galendar.remote.ContestData
 import com.example.galendar.R
+import com.example.galendar.databinding.ItemContestBinding
 
 
 class ContestAdapter(
     private var contests: MutableList<ContestData> = mutableListOf()
 ) : RecyclerView.Adapter<ContestAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val contestImage: ImageView = view.findViewById(R.id.ivContestImage)
-        val contestTitle: TextView = view.findViewById(R.id.tvTitle)
-        val contestEndDate: TextView = view.findViewById(R.id.tvSubmitEndDate)
-        val contestDate: TextView = view.findViewById(R.id.tvContestDate)
+    class ViewHolder(private val binding: ItemContestBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(contest: ContestData) {
+            binding.tvTitle.text = contest.title
+            binding.tvSubmitEndDate.text = "마감일: ${contest.submitEndDate }"
+            binding.tvContestDate.text = "대회날짜: ${contest.contestStartDate ?: "정보 없음"} ~ ${contest.contestEndDate ?: "정보 없음"}"
+
+            Glide.with(itemView.context)
+                .load(contest.imgLink)
+                .into(binding.ivContestImage)
+        }
     }
 
     fun updateData(newContests: List<ContestData>) {
@@ -27,29 +33,26 @@ class ContestAdapter(
         contests.addAll(newContests)
         notifyDataSetChanged()
     }
+
     fun addData(newContests: List<ContestData>) {
         contests.addAll(newContests)
         notifyDataSetChanged()
     }
 
+    fun clearData() {
+        contests.clear()
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount(): Int = contests.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_contest, parent, false)
-        return ViewHolder(view)
+        val binding=ItemContestBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val contest = contests[position]
-
-        holder.contestTitle.text = contest.title
-        holder.contestEndDate.text = "마감일: ${contest.submitEndDate}"
-        holder.contestDate.text = "대회날짜: ${contest.contestStartDate} ~ ${contest.contestEndDate}"
-
-        Glide.with(holder.itemView.context)
-            .load(contest. imgLink)
-            .into(holder.contestImage)
+        holder.bind(contests[position])
     }
 }
+
