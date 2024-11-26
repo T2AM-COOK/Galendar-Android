@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".SearchViewFragment">
+    tools:context=".feature.main.SearchViewFragment">
 
     <!-- 상단 레이아웃: 검색창과 필터 버튼 -->
     <LinearLayout

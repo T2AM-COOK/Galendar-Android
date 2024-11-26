@@ -1,4 +1,4 @@
-package com.example.galendar
+package com.example.galendar.util
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

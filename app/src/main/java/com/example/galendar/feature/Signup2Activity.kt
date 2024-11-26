@@ -1,25 +1,26 @@
-package com.example.galendar
+package com.example.galendar.feature
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import android.view.View
+import com.example.galendar.R
+import com.example.galendar.remote.RetrofitBuilder
+import com.example.galendar.remote.SendEmailRequest
+import com.example.galendar.remote.SendEmailResponse
+import com.example.galendar.remote.VerifyRequest
+import com.example.galendar.remote.VerifyResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class Signup2Activity : AppCompatActivity() {
 
-    private lateinit var emailService: EmailService
     private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +65,7 @@ class Signup2Activity : AppCompatActivity() {
         progressBar.visibility = View.VISIBLE
 
         val sendEmailRequest = SendEmailRequest(email)
-        emailService.sendEmail(sendEmailRequest).enqueue(object : Callback<SendEmailResponse> {
+        RetrofitBuilder.apiService.sendEmail(sendEmailRequest).enqueue(object : Callback<SendEmailResponse> {
             override fun onResponse(call: Call<SendEmailResponse>, response: Response<SendEmailResponse>) {
                 progressBar.visibility = View.GONE
                 val sendEmailResponse = response.body()
@@ -89,8 +90,7 @@ class Signup2Activity : AppCompatActivity() {
         progressBar.visibility = View.VISIBLE
 
         val verifyRequest = VerifyRequest(email, code)
-        val emailService = RetrofitClient.EmailService
-        emailService.verifyEmailCode(verifyRequest).enqueue(object : Callback<VerifyResponse> {
+        RetrofitBuilder.apiService.verifyEmailCode(verifyRequest).enqueue(object : Callback<VerifyResponse> {
             override fun onResponse(call: Call<VerifyResponse>, response: Response<VerifyResponse>) {
                 progressBar.visibility = View.GONE
 

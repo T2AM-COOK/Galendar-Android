@@ -1,13 +1,11 @@
-package com.example.galendar
+package com.example.galendar.feature.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.activity.enableEdgeToEdge
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import com.example.galendar.R
 
 class BookmarkFragment : Fragment(R.layout.fragment_bookmark) {
 

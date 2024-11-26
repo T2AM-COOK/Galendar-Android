@@ -1,10 +1,10 @@
-package com.example.galendar
+package com.example.galendar.feature.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.example.galendar.databinding.ActivityMainBinding
 import androidx.fragment.app.FragmentTransaction
+import com.example.galendar.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,7 +16,8 @@ class MainActivity : AppCompatActivity() {
     private var homeFragment: HomeFragment? = null
     private var bookmarkFragment: BookmarkFragment? = null
     private var profileFragment: ProfileFragment? = null
-    private var searchViewFragment : SearchViewFragment? = null
+    private var searchViewFragment: SearchViewFragment? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                     if (searchViewFragment == null) {
                         searchViewFragment = SearchViewFragment()
                     }
-                    transaction.replace(R.id.main_container, searchViewFragment!!)  // 수정된 부분
+                    transaction.replace(R.id.main_container, searchViewFragment!!)
                 }
                 R.id.navigation_bookmark -> {
                     // 북마크 프래그먼트가 null일 경우에만 새로 생성
@@ -70,7 +71,6 @@ class MainActivity : AppCompatActivity() {
                     transaction.replace(R.id.main_container, profileFragment!!)
                 }
             }
-
 
             // 트랜잭션을 커밋하면서 이전 상태를 백스택에 추가하지 않음 (필요시 추가할 수 있음)
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

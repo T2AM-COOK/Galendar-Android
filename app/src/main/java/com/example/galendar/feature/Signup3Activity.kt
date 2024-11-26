@@ -1,7 +1,8 @@
-package com.example.galendar
+package com.example.galendar.feature
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -11,12 +12,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
+import com.example.galendar.R
+import com.example.galendar.feature.login.LoginActivity
+import com.example.galendar.remote.RetrofitBuilder
+import com.example.galendar.remote.SignUpResponse
+import com.example.galendar.remote.SignupRequest
 import retrofit2.Call
-import android.view.View
 
 class Signup3Activity : AppCompatActivity() {
 
@@ -57,7 +58,7 @@ class Signup3Activity : AppCompatActivity() {
         val signupRequest = SignupRequest(name, email, password)
         val progressBar : ProgressBar = findViewById(R.id.progressBar)
 
-        RetrofitClient.signupService.signup(signupRequest)
+        RetrofitBuilder.apiService.signup(signupRequest)
             .enqueue(object : retrofit2.Callback<SignUpResponse> {
                 override fun onResponse(
                     call: Call<SignUpResponse>,

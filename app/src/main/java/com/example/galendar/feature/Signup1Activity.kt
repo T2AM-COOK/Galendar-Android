@@ -1,4 +1,4 @@
-package com.example.galendar
+package com.example.galendar.feature
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ProgressBar
 import android.view.View
+import com.example.galendar.R
 
 class Signup1Activity : AppCompatActivity() {
 

@@ -1,6 +1,5 @@
-package com.example.galendar
+package com.example.galendar.feature.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -9,12 +8,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.CalendarDay
-import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
 import java.util.Locale
 import java.util.Calendar
 import java.text.SimpleDateFormat
 import android.content.res.Configuration
 import android.widget.TextView
+import com.example.galendar.R
+import com.example.galendar.util.SaturdayDecorator
+import com.example.galendar.util.SelectedDecorator
+import com.example.galendar.util.SundayDecorator
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 

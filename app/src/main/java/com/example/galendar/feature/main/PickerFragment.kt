@@ -1,23 +1,22 @@
-package com.example.galendar
+package com.example.galendar.feature.main
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import android.util.Log
 import android.view.View
 import android.widget.Button
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.util.Calendar
-import java.util.Locale
 import android.widget.Toast
+import com.example.galendar.R
+import com.example.galendar.remote.RetrofitBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Calendar
+import java.util.Locale
 
 class PickerFragment : BottomSheetDialogFragment(R.layout.fragment_picker) {
 
@@ -92,16 +91,11 @@ class PickerFragment : BottomSheetDialogFragment(R.layout.fragment_picker) {
                 val chip = group.getChildAt(i) as Chip
                 if (chip.isChecked) {
                     selectedTargetIds = selectedTargetIds + (chip.tag as Int)
+                    Log.d("item selected", selectedTargetIds.toString())
                 }
             }
         }
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://3.37.189.59/") // 서버 주소
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val contestService = retrofit.create(ContestService::class.java)
 
         applyBtn.setOnClickListener {
             val isRegionSelected = regionChipGroup.checkedChipIds.isNotEmpty()
@@ -120,7 +114,7 @@ class PickerFragment : BottomSheetDialogFragment(R.layout.fragment_picker) {
                 val endDateToSend = if (submitEndDate.isNotBlank()) submitEndDate else ""
 
                 try {
-                    val contestResponse = contestService.getContestList(
+                    val contestResponse = RetrofitBuilder.apiService.getContestList(
                         page = 1,
                         size = 10,
                         keyword = "",
@@ -138,7 +132,11 @@ class PickerFragment : BottomSheetDialogFragment(R.layout.fragment_picker) {
                 } catch (e: Exception) {
                     // 에러 메시지 출력
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(requireContext(), "에러가 발생했습니다: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "에러가 발생했습니다: ${e.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     e.printStackTrace() // 로그에 에러 출력
                 }
