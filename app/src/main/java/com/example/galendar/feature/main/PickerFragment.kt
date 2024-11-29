@@ -121,7 +121,8 @@ class PickerFragment : BottomSheetDialogFragment(R.layout.fragment_picker) {
                         targets = selectedTargetIds,
                         regions = selectedRegionIds,
                         submitStartDate = startDateToSend,
-                        submitEndDate = endDateToSend
+                        submitEndDate = endDateToSend,
+                        bookmarked = false
                     )
 
                     withContext(Dispatchers.Main) {

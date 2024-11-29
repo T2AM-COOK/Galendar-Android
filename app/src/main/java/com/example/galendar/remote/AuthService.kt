@@ -5,6 +5,7 @@ import retrofit2.Call
 import retrofit2.http.Query
 import retrofit2.http.POST
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 // 회원가입 인터페이스
 interface RetrofitService {
@@ -26,13 +27,19 @@ interface RetrofitService {
         @Query("targets") targets: List<Int> = emptyList(),
         @Query("regions") regions: List<Int> = emptyList(),
         @Query("submitStartDate") submitStartDate: String = "",
-        @Query("submitEndDate") submitEndDate: String = ""
+        @Query("submitEndDate") submitEndDate: String = "",
+        @Query("bookmarked") bookmarked : Boolean
     ): ContestResponse
     @GET("/region")
     suspend fun Region(): RegionResponse
 
     @GET("/target")
     suspend fun Target() : TargetResponse
+
+    @GET("/contest/{id}")
+    suspend fun getDetailContest(
+        @Path("id") id : Int
+    ):Contesetial
 }
 
 

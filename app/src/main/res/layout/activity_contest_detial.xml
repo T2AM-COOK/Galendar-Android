@@ -3,8 +3,192 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:layout_width="match_parent"
+    android:layout_width="395dp"
     android:layout_height="match_parent"
+    app:layout_constraintEnd_toEndOf="parent"
     tools:context=".feature.main.Contest_detial_Activity">
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="대회제목"
+        android:textSize="22dp"
+        android:fontFamily="@font/pretendardextrabold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="55dp"/>
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/title"
+        android:text="대회정보 설명"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:fontFamily="@font/pretendardbold"
+        android:textColor="@color/black"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:id="@+id/view_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/content"
+        android:text="더보기"
+        app:layout_constraintTop_toBottomOf="@id/content"/>
+
+    <TextView
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/title"
+        android:fontFamily="@font/pretendardbold"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:text="접수기간"
+        app:layout_constraintTop_toBottomOf="@id/content"
+        android:layout_marginTop="30dp"
+        />
+    <TextView
+        android:id="@+id/submitDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendardbold"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:text="접수기간날짜"
+        app:layout_constraintTop_toTopOf="@id/submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/contest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/title"
+        android:fontFamily="@font/pretendardbold"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:text="대회기간"
+        app:layout_constraintTop_toBottomOf="@id/content"
+        android:layout_marginTop="60dp"
+        />
+    <TextView
+        android:id="@+id/contestDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendardbold"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:text="대회기간날짜"
+        app:layout_constraintTop_toTopOf="@id/contest"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/targettext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/title"
+        android:fontFamily="@font/pretendardbold"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:text="참여대상"
+        app:layout_constraintTop_toBottomOf="@id/content"
+        android:layout_marginTop="90dp"
+        />
+    <TextView
+        android:id="@+id/target"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendardbold"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:text="타겟1,2,3,4,5"
+        app:layout_constraintTop_toTopOf="@id/targettext"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/regiontext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/title"
+        android:fontFamily="@font/pretendardbold"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:text="대회 지역"
+        app:layout_constraintTop_toBottomOf="@id/content"
+        android:layout_marginTop="120dp"
+        />
+    <TextView
+        android:id="@+id/tregion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendardbold"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:text="지역1,2,3,4,5"
+        app:layout_constraintTop_toTopOf="@id/regiontext"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/costtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/title"
+        android:fontFamily="@font/pretendardbold"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:text="대회 지역"
+        app:layout_constraintTop_toBottomOf="@id/content"
+        android:layout_marginTop="150dp"
+        />
+    <TextView
+        android:id="@+id/cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendardbold"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:text="2억"
+        app:layout_constraintTop_toTopOf="@id/costtext"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="380dp"
+        android:layout_height="400dp"
+        app:layout_constraintStart_toStartOf="@id/title"
+        app:layout_constraintTop_toTopOf="@id/targettext"
+        android:layout_marginTop="100dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="더 자세한 내용을 확인하시려면 포스터를 클릭해 주시기 바랍니다."
+        app:layout_constraintStart_toStartOf="@id/img"
+        app:layout_constraintTop_toBottomOf="@id/img"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

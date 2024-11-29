@@ -49,7 +49,8 @@ data class ContestData(
     val submitStartDate: String,
     val submitEndDate: String,
     val contestStartDate: String?,
-    val contestEndDate: String?
+    val contestEndDate: String?,
+    val bookmarked : Boolean
 )
 data class RegionResponse(
     val status: Int,
@@ -66,6 +67,36 @@ data class TargetResponse(
     val data: List<TargetData>
 )
 data class TargetData(
+    val id: Int,
+    val name: String
+)
+
+data class Contesetial(
+    val status: Int,
+    val message: String,
+    val data : List<DetailData>
+)
+data class DetailData(
+    val id: Int,
+    val title: String,
+    val content: String,
+    val cost: String,
+    val link: String,
+    val imgLink: String,
+    val submitStartDate: String,
+    val submitEndDate: String,
+    val contestStartDate: String?,
+    val contestEndDate: String?,
+    val targets: List<DetailTarget>,
+    val regions: List<DetailRegion>,
+    val bookmarked: Boolean
+)
+data class DetailTarget(
+    val id: Int,
+    val name: String
+)
+
+data class DetailRegion(
     val id: Int,
     val name: String
 )

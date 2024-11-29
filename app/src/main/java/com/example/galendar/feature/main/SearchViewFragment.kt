@@ -136,7 +136,8 @@ class SearchViewFragment : Fragment(R.layout.fragment_search_view) {
                     targets = emptyList(),
                     regions = emptyList(),
                     submitStartDate = "",
-                    submitEndDate = ""
+                    submitEndDate = "",
+                    bookmarked = false
                 )
 
                 if (response.status == 200) {
@@ -178,7 +179,8 @@ class SearchViewFragment : Fragment(R.layout.fragment_search_view) {
                 val response = RetrofitBuilder.apiService.getContestList(
                     page = currentPage,
                     size = pageSize,
-                    keyword = keyword
+                    keyword = keyword,
+                    bookmarked = false
                 )
 
                 if (response.status == 200) {
