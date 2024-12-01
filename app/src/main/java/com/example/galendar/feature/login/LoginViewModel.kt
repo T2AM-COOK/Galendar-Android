@@ -24,8 +24,8 @@ import com.example.galendar.remote.TokenManager
 class LoginViewModel(application: Application) : AndroidViewModel(application = application) {
     val sharedPref = application.getSharedPreferences(PREFKEY, Context.MODE_PRIVATE)
 
-    fun login(email: String, password: String, success: (Boolean) -> Unit) {
-        val loginRequest = LoginRequest(email, password)
+    fun login(email: String, password: String, token: String, success: (Boolean) -> Unit) {
+        val loginRequest = LoginRequest(email, password, token)
 
         CoroutineScope(Dispatchers.IO).launch {
             try {

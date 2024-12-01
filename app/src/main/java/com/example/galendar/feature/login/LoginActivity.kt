@@ -1,6 +1,9 @@
 package com.example.galendar.feature.login
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -13,9 +16,12 @@ import androidx.core.view.WindowInsetsCompat
 import android.view.View
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.galendar.R
 import com.example.galendar.feature.main.MainActivity
 import com.example.galendar.feature.Signup1Activity
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordEdit: EditText
     private lateinit var loginButton: Button
     private lateinit var progressBar: ProgressBar
+    private val NOTIFICATION_PERMISSION_REQUEST_CODE = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,19 +59,17 @@ class LoginActivity : AppCompatActivity() {
             }
 
             progressBar.visibility = View.VISIBLE
-
-            viewModel.login(email, password) { success ->
-                progressBar.visibility = View.GONE
-
-                if (success) {
-
-
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                    Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
+            fetchFcmToken { token ->
+                viewModel.login(email, password, token) { success ->
+                    progressBar.visibility = View.GONE
+                    if (success) {
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                        Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -78,7 +83,12 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        requestNotificationPermissionIfNeeded();
+
+
     }
+
     private fun checkAutoLogin() {
         progressBar.visibility = View.VISIBLE
         val accessToken = viewModel.getAccessToken()
@@ -112,4 +122,34 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun fetchFcmToken(onTokenReceived: (String) -> Unit) {
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task ->
+                val token = if (task.isSuccessful) task.result else ""
+                onTokenReceived(token)
+            }
+    }
+
+    private fun requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_REQUEST_CODE)
+            } else {
+                // 권한 O
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 권한이 승인된 경우
+            } else {
+                // 권한이 거부된 경우
+            }
+        }
+    }
+
 }
