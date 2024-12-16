@@ -7,7 +7,51 @@
     android:background="@color/white"
     tools:context=".feature.main.BookmarkFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내가 찜한 대회"
+        android:fontFamily="@font/paperlogybold"
+        android:textSize="25dp"
+        android:textColor="@color/black"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="20dp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bookmarkRecycler"
+        android:layout_marginTop="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/emptyStateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/logoblue"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="320dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/paperlogybold"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:text="대회를 추가해 보세요!"/>
+
+
+    </LinearLayout>
+
 
 
 </FrameLayout>

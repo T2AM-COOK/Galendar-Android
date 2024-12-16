@@ -18,9 +18,6 @@ data class VerifyRequest(
 data class SendEmailRequest(
     val email: String
 )
-data class contsetRequest (
-    val page: Int,
-    val size: Int,
-    val keyword : String
-)
+
 data class RefreshRequest(val refreshToken: String)
+

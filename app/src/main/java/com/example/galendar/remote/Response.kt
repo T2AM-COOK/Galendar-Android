@@ -71,10 +71,10 @@ data class TargetData(
     val name: String
 )
 
-data class Contesetial(
+data class ContestDetialResponse(
     val status: Int,
     val message: String,
-    val data : List<DetailData>
+    val data : DetailData
 )
 data class DetailData(
     val id: Int,
@@ -99,4 +99,41 @@ data class DetailTarget(
 data class DetailRegion(
     val id: Int,
     val name: String
+)
+
+data class AddBookmarkResponse(
+    val status: Int,     // 응답 상태 코드 (e.g., 200)
+    val message: String  // 응답 메시지 (e.g., "북마크가 등록되었습니다.")
+)
+data class BookmarkListResponse(
+    val status: Int,
+    val message: String,
+    val data : List<BookmarkList>
+)
+ data class BookmarkList(
+     val id: Int, //bookmarkId
+     val contestId : Int,
+     val title: String,
+     val link: String,
+     val imgLink: String,
+     val submitStartDate: String,
+     val submitEndDate: String,
+     val contestStartDate: String?,
+     val contestEndDate: String?
+ )
+data class DeleteBookmarkResponse(
+    val status: Int,
+    val message: String
+)
+
+data class  meResponse(
+    val status: Int,
+    val message: String,
+    val data : MeList
+)
+data class MeList(
+    val id : Int,
+    val email : String,
+    val name : String,
+    val role : String
 )

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="380dp"
+        android:layout_height="100dp"
+        android:src="@drawable/recyclerbackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="대회제목대회제목대회제목대회제목대회제"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:maxEms="13"
+        android:fontFamily="@font/paperlogyextrabold"
+        app:layout_constraintStart_toStartOf="@id/background"
+        app:layout_constraintTop_toTopOf="@id/background"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"/>
+
+    <TextView
+        android:id="@+id/submitEndStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:text="접수기간  |  2024-11-30 ~ 2024-12-03"
+        app:layout_constraintStart_toStartOf="@id/title"
+        android:textSize="17dp"
+        android:fontFamily="@font/paperlogybold"
+        android:textColor="@color/grayyy"
+        android:layout_marginTop="3dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/paperlogybold"
+        android:textSize="19dp"
+        app:layout_constraintStart_toStartOf="@id/title"
+        android:text="접수 마감일"
+        android:textColor="@color/red"
+        app:layout_constraintTop_toBottomOf="@id/submitEndStart"/>
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

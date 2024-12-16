@@ -44,12 +44,16 @@ class Signup3Activity : AppCompatActivity() {
             val passwordCheck: EditText = findViewById(R.id.passwordCheck)
             val name = intent.getStringExtra("username") ?: ""
             val email = intent.getStringExtra("email") ?: ""
+            val passwordRegex = Regex("^(?=.*[!@#\$%^&*(),.?\":{}|<>])[A-Za-z\\d!@#\$%^&*(),.?\":{}|<>]{8,12}\$")
+
 
             // 입력한 비밀번호 문자열을 비교
-            if (password.text.toString() == passwordCheck.text.toString()) {
+            if (password.text.toString() == passwordCheck.text.toString() && password.text.toString().matches(passwordRegex)) {
                 signup(name, email, password.text.toString())
-            } else {
-                Toast.makeText(this, "비밀번호가 동일하지 않습니다", Toast.LENGTH_SHORT).show()
+            } else if (!password.text.toString().matches(passwordRegex)) {
+                Toast.makeText(this, "특수문자는 최소1개이며 8~12글자여야 합니다", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -22,9 +22,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".feature.main.Contest_detial_Activity"
+            android:name=".feature.main.DetailActivity"
             android:exported="false" />
-        <!-- <activity -->
+        <activity
+            android:name=".feature.main.Contest_detial_Activity"
+            android:exported="false" /> <!-- <activity -->
         <!-- android:name=".FCMActivity" -->
         <!-- android:exported="false" /> -->
         <!-- <activity -->

@@ -52,8 +52,14 @@ class Signup2Activity : AppCompatActivity() {
 
         nextBtn.setOnClickListener {
             val sendNumber = sendNumberText.text.toString().trim()
+            val email = emailText.text.toString().trim()
+            val username = intent.getStringExtra("username") ?: ""
             if (sendNumber.isNotEmpty()) {
-                verifyEmailCode(emailText.text.toString().trim(), sendNumber)
+//                verifyEmailCode(emailText.text.toString().trim(), sendNumber)
+                val intent = Intent(this@Signup2Activity, Signup3Activity::class.java)
+                intent.putExtra("username", username)
+                intent.putExtra("email", email)
+                startActivity(intent)
             } else {
                 Toast.makeText(this, "인증번호를 입력하세요", Toast.LENGTH_SHORT).show()
             }
@@ -65,57 +71,64 @@ class Signup2Activity : AppCompatActivity() {
         progressBar.visibility = View.VISIBLE
 
         val sendEmailRequest = SendEmailRequest(email)
-        RetrofitBuilder.apiService.sendEmail(sendEmailRequest).enqueue(object : Callback<SendEmailResponse> {
-            override fun onResponse(call: Call<SendEmailResponse>, response: Response<SendEmailResponse>) {
-                progressBar.visibility = View.GONE
-                val sendEmailResponse = response.body()
+        RetrofitBuilder.apiService.sendEmail(sendEmailRequest)
+            .enqueue(object : Callback<SendEmailResponse> {
+                override fun onResponse(
+                    call: Call<SendEmailResponse>,
+                    response: Response<SendEmailResponse>
+                ) {
+                    progressBar.visibility = View.GONE
+                    val sendEmailResponse = response.body()
 
-                if (sendEmailResponse != null && sendEmailResponse.status == 200) {
-                    Toast.makeText(this@Signup2Activity, "인증번호가 전송되었습니다.", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this@Signup2Activity, "이메일 전송 실패", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<SendEmailResponse>, t: Throwable) {
-                progressBar.visibility = View.GONE
-                Toast.makeText(this@Signup2Activity, "네트워크 오류", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
-
-    // 인증번호 확인
-    private fun verifyEmailCode(email: String, code: String) {
-        progressBar.visibility = View.VISIBLE
-
-        val verifyRequest = VerifyRequest(email, code)
-        RetrofitBuilder.apiService.verifyEmailCode(verifyRequest).enqueue(object : Callback<VerifyResponse> {
-            override fun onResponse(call: Call<VerifyResponse>, response: Response<VerifyResponse>) {
-                progressBar.visibility = View.GONE
-
-                if (response.isSuccessful) {
-                    val verifyResponse = response.body()
-
-                    if (verifyResponse != null && verifyResponse.status == 200) {
-                        // 인증 성공 -> 다음 화면으로 이동
-                        val intent = Intent(this@Signup2Activity, Signup3Activity::class.java)
-                        intent.putExtra("username", intent.getStringExtra("username"))
-                        intent.putExtra("email", email)
-                        startActivity(intent)
+                    if (sendEmailResponse != null && sendEmailResponse.status == 200) {
+                        Toast.makeText(this@Signup2Activity, "인증번호가 전송되었습니다.", Toast.LENGTH_SHORT)
+                            .show()
                     } else {
-                        Toast.makeText(this@Signup2Activity, "인증번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@Signup2Activity, "이메일 전송 실패", Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Toast.makeText(this@Signup2Activity, "인증 실패", Toast.LENGTH_SHORT).show()
                 }
-            }
 
-            override fun onFailure(call: Call<VerifyResponse>, t: Throwable) {
-                progressBar.visibility = View.GONE
-                Toast.makeText(this@Signup2Activity, "네트워크 오류", Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onFailure(call: Call<SendEmailResponse>, t: Throwable) {
+                    progressBar.visibility = View.GONE
+                    Toast.makeText(this@Signup2Activity, "네트워크 오류", Toast.LENGTH_SHORT).show()
+                }
+            })
     }
 }
 
+
+//
+////     인증번호 확인
+//    private fun verifyEmailCode(email: String, code: String) {
+//        progressBar.visibility = View.VISIBLE
+//
+//        val verifyRequest = VerifyRequest(email, code)
+//        RetrofitBuilder.apiService.verifyEmailCode(verifyRequest).enqueue(object : Callback<VerifyResponse> {
+//            override fun onResponse(call: Call<VerifyResponse>, response: Response<VerifyResponse>) {
+//                progressBar.visibility = View.GONE
+//
+//                if (response.isSuccessful) {
+//                    val verifyResponse = response.body()
+//
+//                    if (verifyResponse != null && verifyResponse.status == 200l) {
+//                        // 인증 성공 -> 다음 화면으로 이동
+//                        val intent = Intent(this@Signup2Activity, Signup3Activity::class.java)
+//                        intent.putExtra("username", intent.getStringExtra("username"))
+//                        intent.putExtra("email", email)
+//                        startActivity(intent)
+//                    } else {
+//                        Toast.makeText(this@Signup2Activity, "인증번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+//                    }
+//                } else {
+//                    Toast.makeText(this@Signup2Activity, "인증 실패", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<VerifyResponse>, t: Throwable) {
+//                progressBar.visibility = View.GONE
+//                Toast.makeText(this@Signup2Activity, "네트워크 오류", Toast.LENGTH_SHORT).show()
+//            }
+//        })
+//    }
+//}
+//

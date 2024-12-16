@@ -129,15 +129,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="60dp"/>
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="자동로그인"
-        android:fontFamily="@font/roboto"
-        app:layout_constraintStart_toStartOf="@id/PasswordText"
-        app:layout_constraintBottom_toTopOf="@id/LoginButton"
-        app:layout_constraintBottom_toBottomOf="@id/fg"
-        android:layout_marginBottom="14dp"/>
 
     <ProgressBar
         android:id="@+id/progressBar"

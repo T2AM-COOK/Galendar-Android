@@ -3,11 +3,18 @@ package com.example.galendar.feature.main
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.galendar.R
 import com.example.galendar.remote.RetrofitBuilder
+import com.example.galendar.feature.contests.ContestAdapter
+import com.example.galendar.databinding.FragmentPickerBinding
+import com.example.galendar.databinding.FragmentSearchViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -19,18 +26,52 @@ import java.util.Calendar
 import java.util.Locale
 
 class PickerFragment : BottomSheetDialogFragment(R.layout.fragment_picker) {
+    private lateinit var pickerBinding: FragmentPickerBinding
+    private lateinit var searchViewBinding: FragmentSearchViewBinding
+    private lateinit var contestAdapter: ContestAdapter
+
+    interface FilterListener {
+        fun onFilterApplied(
+            startDate: String,
+            endDate: String,
+            regionIds: List<Int>,
+            targetIds: List<Int>
+        )
+    }
+    private var filterListener: FilterListener? = null
+
+    // 리스너 설정 메서드 추가
+    fun setFilterListener(listener: FilterListener) {
+        filterListener = listener
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        // FragmentPickerBinding을 inflate해서 뷰 초기화
+        pickerBinding = FragmentPickerBinding.inflate(inflater, container, false)
+        searchViewBinding = FragmentSearchViewBinding.inflate(inflater, container, false)
+
+        return pickerBinding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val applyBtn: Button = view.findViewById(R.id.apllyBtn)
         val resetBtn: Button = view.findViewById(R.id.resetBtn)
+        val apllyBtn : Button = view.findViewById(R.id.apllyBtn)
 
         var submitStartDate: String = "" // 기본값: 공백
         var submitEndDate: String = "" // 기본값: 공백
 
         val submitStartData: Button = view.findViewById(R.id.submit_start_data)
         val submitEndData: Button = view.findViewById(R.id.submit_end_data)
+
+        // RecyclerView 초기화 (FragmentSearchViewBinding 사용)
+        val recyclerView = searchViewBinding.recyclerViewContests
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        contestAdapter = ContestAdapter()
+        recyclerView.adapter = contestAdapter
 
         // 날짜 선택 처리 함수
         fun showDatePickerForButton(button: Button) {
@@ -96,8 +137,8 @@ class PickerFragment : BottomSheetDialogFragment(R.layout.fragment_picker) {
             }
         }
 
-
-        applyBtn.setOnClickListener {
+        // 필터 적용 함수
+        fun applyFilters() {
             val isRegionSelected = regionChipGroup.checkedChipIds.isNotEmpty()
             val isTargetSelected = targetChipGroup.checkedChipIds.isNotEmpty()
             val isStartDateSelected = submitStartDate.isNotBlank()
@@ -106,13 +147,11 @@ class PickerFragment : BottomSheetDialogFragment(R.layout.fragment_picker) {
             // 하나라도 선택되었는지 확인
             if (!(isRegionSelected || isTargetSelected || isStartDateSelected || isEndDateSelected)) {
                 Toast.makeText(requireContext(), "적용될게 없습니다.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+                return
             }
 
-            CoroutineScope(Dispatchers.IO).launch {
-                val startDateToSend = if (submitStartDate.isNotBlank()) submitStartDate else ""
-                val endDateToSend = if (submitEndDate.isNotBlank()) submitEndDate else ""
 
+            CoroutineScope(Dispatchers.IO).launch {
                 try {
                     val contestResponse = RetrofitBuilder.apiService.getContestList(
                         page = 1,
@@ -120,29 +159,37 @@ class PickerFragment : BottomSheetDialogFragment(R.layout.fragment_picker) {
                         keyword = "",
                         targets = selectedTargetIds,
                         regions = selectedRegionIds,
-                        submitStartDate = startDateToSend,
-                        submitEndDate = endDateToSend,
+                        submitStartDate = if (submitStartDate.isNotBlank()) submitStartDate else "",
+                        submitEndDate = if (submitEndDate.isNotBlank()) submitEndDate else "",
                         bookmarked = false
                     )
 
                     withContext(Dispatchers.Main) {
-                        println(contestResponse) // 서버 응답 확인
-                        Toast.makeText(requireContext(), "적용되었습니다.", Toast.LENGTH_SHORT).show()
-                        dismiss()
+                        if (contestResponse.status == 200) {
+                            // 필터 리스너를 통해 데이터 전달
+                            filterListener?.onFilterApplied(
+                                submitStartDate,
+                                submitEndDate,
+                                selectedRegionIds,
+                                selectedTargetIds,
+                            )
+                            Toast.makeText(requireContext(), "적용되었습니다.", Toast.LENGTH_SHORT).show()
+                            dismiss()
+                        }
                     }
                 } catch (e: Exception) {
-                    // 에러 메시지 출력
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(
-                            requireContext(),
-                            "에러가 발생했습니다: ${e.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(requireContext(), "에러가 발생했습니다: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
-                    e.printStackTrace() // 로그에 에러 출력
+                    e.printStackTrace()
                 }
             }
         }
+        apllyBtn.setOnClickListener {
+            contestAdapter.clearData() // 이전 데이터 제거
+            applyFilters()
+        }
+
         resetBtn.setOnClickListener {
             // 칩 선택 초기화
             for (i in 0 until regionChipGroup.childCount) {
@@ -156,8 +203,8 @@ class PickerFragment : BottomSheetDialogFragment(R.layout.fragment_picker) {
             }
 
             // 날짜 선택 초기화
-            submitStartData.text = "시작 날짜"
-            submitEndData.text = "종료 날짜"
+            submitStartData.text = "접수 시작일"
+            submitEndData.text = "접수 마감일"
             submitStartDate = ""
             submitEndDate = ""
         }

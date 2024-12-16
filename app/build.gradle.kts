@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.gms.google-services")
-
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -100,6 +100,11 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
     implementation("com.google.firebase:firebase-analytics")
+
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.5" )// 버전은 프로젝트에 맞게 조정
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.5" )// 버전은 프로젝트에 맞게 조정
+
+
 
 
 }

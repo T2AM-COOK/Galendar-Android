@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".feature.main.SearchViewFragment"
     android:background="@color/white"
-    android:id="@+id/search_root"
     >
 
     <data>
@@ -14,7 +13,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/search_root">
 
         <!-- 상단 레이아웃: 검색창과 필터 버튼 -->
         <LinearLayout

@@ -40,8 +40,7 @@
             android:elevation="0dp"
             android:outlineSpotShadowColor="@android:color/transparent"
             app:itemIconTint="@color/selector_tab_icon_color"
-            android:stateListAnimator="@null"
-            />
+            android:stateListAnimator="@null"/>
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

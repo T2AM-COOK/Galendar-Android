@@ -2,6 +2,7 @@ package com.example.galendar.remote
 
 import retrofit2.http.Body
 import retrofit2.Call
+import retrofit2.http.DELETE
 import retrofit2.http.Query
 import retrofit2.http.POST
 import retrofit2.http.GET
@@ -39,7 +40,29 @@ interface RetrofitService {
     @GET("/contest/{id}")
     suspend fun getDetailContest(
         @Path("id") id : Int
-    ):Contesetial
+    ):ContestDetialResponse
+
+    @POST("/bookmark/{contestId}")
+    suspend fun addBookmark(
+        @Path("contestId") contestId: Int,
+    ): AddBookmarkResponse
+
+    @DELETE("/bookmark/{bookmarkId}")
+    suspend fun deleteBookmark(
+        @Path("bookmarkId") bookmarkId: Int
+    ): DeleteBookmarkResponse
+
+    @GET("/bookmark/list")
+    suspend fun getBookmarkList(
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("keyword") keyword: String = ""
+    ): BookmarkListResponse
+
+    @GET("/user/me")
+    suspend fun getme() : meResponse
+
 }
+
 
 

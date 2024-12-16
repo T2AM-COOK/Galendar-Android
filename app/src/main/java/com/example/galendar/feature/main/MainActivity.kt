@@ -2,9 +2,11 @@ package com.example.galendar.feature.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.galendar.databinding.ActivityMainBinding
 import androidx.fragment.app.FragmentTransaction
 import com.example.galendar.R
+import com.example.galendar.databinding.ActivityMainBinding
+import com.example.galendar.feature.contests.BookmarkViewModel
+import androidx.activity.viewModels
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private var bookmarkFragment: BookmarkFragment? = null
     private var profileFragment: ProfileFragment? = null
     private var searchViewFragment: SearchViewFragment? = null
-
+    private val bookmarkViewModel: BookmarkViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
