@@ -26,5 +26,6 @@ class RetrofitBuilder {
         }
 
         val apiService: RetrofitService = getRetrofit().create(RetrofitService::class.java)
+
     }
 }
